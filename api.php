@@ -27,13 +27,4 @@ $Buscador->ConfigurarBusqueda( $cs, $top );
 
 echo implode("\r\n",$Buscador->Buscar($query,$_SESSION['DatosBuscador']));
 
-/*
-$Resultado = $Buscador->Buscar($query,$_SESSION['DatosBuscador']);
-// Recorrer nuestro array, mostrar el código fuente HTML como tal y mostrar tambíen los números de línea.
-foreach ($Resultado as $num_linea => $linea) {
-    echo htmlspecialchars($linea, REPLACE_FLAGS, CHARSET) . "\r\n";
-}
-*/
-
-
 ?>
