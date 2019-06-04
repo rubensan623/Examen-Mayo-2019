@@ -10,7 +10,12 @@
             $this->top = -1;
 		}
         public function cargarDatos($ArchivoDatos){
-            return file($ArchivoDatos, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+            $Datos = file($ArchivoDatos, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+
+            foreach ($Datos as $fila => $value){
+                $Datos[$fila] = mb_convert_encoding($value, "UTF-8","ISO-8859-1,Windows-1251,UTF-8");
+            }
+            return $Datos;
 		}
         public function ConfigurarBusqueda( $cs, $top ){
             if ($cs == 1)      
@@ -24,6 +29,8 @@
         }	
 
         public function Buscar( $Cadena, $Datos){
+            $res = array("cantidad" => 0, "datos" => array(), "err"=>"OK");
+
             if (!$this->cs) // Si es Unsensitive case
                 $query = strtoupper($Cadena); 
             else 
@@ -47,14 +54,14 @@
             }
             
             if ($this->top > 0){
-                $resultados = array_chunk ($resultados, $this->top);
-                if (count($resultados)>0)
-                    $res = $resultados[0];
-                else $res = array();
+                $tmp = array_chunk ($resultados, $this->top);
+                $res["datos"] = $tmp[0] ? $tmp[0] : array();
             }else{
-                $res = $resultados;
+                $res["datos"] = $resultados;
             }
-        
+            
+            $res["cantidad"] = count($res["datos"]);
+
             return $res;
         }	
     }

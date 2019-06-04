@@ -3,6 +3,8 @@ error_reporting(0);
 session_start();
 require_once("Buscador.php");
 
+
+
 ini_set('memory_limit', '-1');
 
 if (!isset($_SESSION['DatosBuscador'])) {

@@ -1,8 +1,9 @@
 <?php
-require_once("IniciarRepo.php");
-define('CHARSET', 'UTF-8');
+
+define('CHARSET', 'ANSI');
 define('REPLACE_FLAGS', ENT_COMPAT | ENT_XHTML);
 
+require_once("IniciarRepo.php");
 
 if ($_SERVER['REQUEST_METHOD'] == "POST"){
     $cs = $_POST["cs"];
@@ -14,6 +15,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST"){
     $query = $_GET["query"];
 }
 
+if ($query==""){
+    echo json_encode(array("cantidad" => 0, "datos" => array(), "err"=>"Se requiere parametro 'query'"));
+    die();
+}
+
 
 if (!isset($Buscador)) {  
     $Buscador = new \Buscador\Buscador;
@@ -21,6 +27,6 @@ if (!isset($Buscador)) {
 
 $Buscador->ConfigurarBusqueda( $cs, $top );
 
-echo implode("\r\n",$Buscador->Buscar($query,$_SESSION['DatosBuscador']));
+echo json_encode($Buscador->Buscar($query,$_SESSION['DatosBuscador']));
 
 ?>
